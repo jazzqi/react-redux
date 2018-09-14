@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateUser, apiRequest } from "./actions/user-actions";
 
-import createSelector from "reselect";
+import { createSelector } from "reselect";
 
 class App extends Component {
   // In order to use this, we need to add a constructor and bind this
@@ -16,7 +16,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.onApiRequest();
+    // this.props.onApiRequest();
   }
 
   onUpdateUser(e) {
@@ -55,7 +55,7 @@ class App extends Component {
 const mapStateToProps = createSelector(
   state => state.products,
   state => state.user,
-  // the last parameter function will assembly all previous params into one object
+  // the last parameter function will assembly all previous param functions' result into one object
   (products, user) => ({
     user,
     products
@@ -85,6 +85,7 @@ const mapActionToProps = {
 };
 
 export default connect(
-  mapStateToProps, mapActionToProps 
+  mapStateToProps,
+  mapActionToProps
   // , mergeProps
 )(App);
