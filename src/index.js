@@ -1,32 +1,53 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import registerServiceWorker from "./registerServiceWorker";
 
-import { createStore } from 'redux';
+import { combineReducers, createStore } from "redux";
 
-function reducer(state, action) {
-  if (action.type === 'changeState') {
-    // return;
+function productReducer(state = [], action) {
+  return state;
+}
+
+function userReducer(state = "", {type, payload}) {
+  switch (type) {
+    case 'updateUser':
+      return payload
+    default:
+      break;
   }
   return state;
 }
 
-const store = createStore(reducer);
+const allReducers = combineReducers({
+  products: productReducer,
+  user: userReducer
+});
 
-console.log(store.getState());
+const store = createStore(
+  allReducers,
+  {
+    products: [
+      {
+        name: "iPhone"
+      }
+    ],
+    user: "Steve"
+  },
+  window.devToolsExtension && window.devToolsExtension()
+);
 
-const action = {
-  type: 'changeState',
+const updateUserAction = {
+  type: 'updateUser',
   payload: {
-    newState: 'New state'
+    user: 'Tim'
   }
 }
 
-store.dispatch(action);
+console.log(store.getState());
+store.dispatch(updateUserAction);
 
-console.log(store.getState())
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));
 
 registerServiceWorker();
