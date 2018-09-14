@@ -5,20 +5,11 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
 import { combineReducers, createStore } from "redux";
+// provider give us access to the store
+import { Provider } from "react-redux";
+import productReducer from "./reducers/product-reducer";
+import userReducer from "./reducers/user-reducer";
 
-function productReducer(state = [], action) {
-  return state;
-}
-
-function userReducer(state = "", {type, payload}) {
-  switch (type) {
-    case 'updateUser':
-      return payload
-    default:
-      break;
-  }
-  return state;
-}
 
 const allReducers = combineReducers({
   products: productReducer,
@@ -38,16 +29,11 @@ const store = createStore(
   window.devToolsExtension && window.devToolsExtension()
 );
 
-const updateUserAction = {
-  type: 'updateUser',
-  payload: {
-    user: 'Tim'
-  }
-}
-
-console.log(store.getState());
-store.dispatch(updateUserAction);
-
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
 
 registerServiceWorker();
