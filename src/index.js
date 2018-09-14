@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-import { combineReducers, createStore } from 'redux';
+import { createStore } from 'redux';
 
 function reducer(state, action) {
   if (action.type === 'changeState') {
