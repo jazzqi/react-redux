@@ -6,6 +6,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateUser, apiRequest } from "./actions/user-actions";
 
+import createSelector from "reselect";
+
 class App extends Component {
   // In order to use this, we need to add a constructor and bind this
   constructor(props) {
@@ -39,14 +41,26 @@ class App extends Component {
   }
 }
 
+// without rselect
 // convert state and props to new props
-const mapStateToProps = (state, props) => {
-  return {
-    products: state.products,
-    user: state.user,
-    userPlusProp: `${state.user} ${props.aRandomProps}`
-  };
-};
+// const mapStateToProps = (state, props) => {
+//   return {
+//     products: state.products,
+//     user: state.user,
+//     userPlusProp: `${state.user} ${props.aRandomProps}`
+//   };
+// };
+
+// with reselect
+const mapStateToProps = createSelector(
+  state => state.products,
+  state => state.user,
+  // the last parameter function will assembly all previous params into one object
+  (products, user) => ({
+    user,
+    products
+  })
+);
 
 // Without thunk
 // const mapActionToProps = (dispatch, props) => {
