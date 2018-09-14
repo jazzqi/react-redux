@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
-import thunk from 'redux-thunk';
+import thunk from "redux-thunk";
 import { applyMiddleware, compose, combineReducers, createStore } from "redux";
 // provider give us access to the store
 import { Provider } from "react-redux";
@@ -17,7 +17,7 @@ const allReducers = combineReducers({
 });
 
 const allStoreEnhancers = compose(
-  // the thunk middleware needs to be come first or else it won't work. 
+  // the thunk middleware needs to be come first or else it won't work.
   applyMiddleware(thunk),
   window.devToolsExtension && window.devToolsExtension()
 );
