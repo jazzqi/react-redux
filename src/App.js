@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
 import { updateUser } from "./actions/user-actions";
 
@@ -12,12 +13,12 @@ class App extends Component {
     this.onUpdateUser = this.onUpdateUser.bind(this);
   }
 
-  onUpdateUser() {
-    this.props.onUpdateUser("Bill");
+  onUpdateUser(e) {
+    this.props.onUpdateUser(e.target.value);
   }
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div className="App">
         <header className="App-header">
@@ -27,20 +28,39 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <div onClick={this.onUpdateUser}> Update user </div>
+        <input onChange={this.onUpdateUser} />
         {this.props.user}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  products: state.products,
-  user: state.user
-});
-
-const mapActionToProps = {
-  onUpdateUser: updateUser
+// convert state and props to new props
+const mapStateToProps = (state, props) => {
+  return {
+    products: state.products,
+    user: state.user,
+    userPlusProp: `${state.user} ${props.aRandomProps}`
+  };
 };
 
-export default connect(mapStateToProps, mapActionToProps)(App);
+const mapActionToProps = (dispatch, props) => {
+  // console.log(props);
+  return bindActionCreators({
+    onUpdateUser: updateUser
+  }, dispatch);
+};
+
+// 1st param is basically whatever we return from map state;
+// 2nd is what we return from map actions to props
+// 3rd is the passed in props
+const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
+  console.log(propsFromState, propsFromDispatch, ownProps);
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapActionToProps,
+  mergeProps
+)(App);
