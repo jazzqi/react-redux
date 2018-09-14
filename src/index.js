@@ -31,7 +31,9 @@ const store = createStore(
       }
     ],
     user: "Steve"
-  } // , window.devToolsExtension && window.devToolsExtension()
+  },
+  // window.devToolsExtension && window.devToolsExtension()
+  allStoreEnhancers
 );
 
 ReactDOM.render(
