@@ -2,15 +2,19 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-import { bindActionCreators } from 'redux';
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { updateUser } from "./actions/user-actions";
+import { updateUser, apiRequest } from "./actions/user-actions";
 
 class App extends Component {
   // In order to use this, we need to add a constructor and bind this
   constructor(props) {
     super(props);
     this.onUpdateUser = this.onUpdateUser.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.onApiRequest();
   }
 
   onUpdateUser(e) {
@@ -44,23 +48,29 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapActionToProps = (dispatch, props) => {
-  // console.log(props);
-  return bindActionCreators({
-    onUpdateUser: updateUser
-  }, dispatch);
-};
+// Without thunk
+// const mapActionToProps = (dispatch, props) => {
+//   // console.log(props);
+//   return bindActionCreators({
+//     onUpdateUser: updateUser
+//   }, dispatch);
+// };
 
 // 1st param is basically whatever we return from map state;
 // 2nd is what we return from map actions to props
 // 3rd is the passed in props
-const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
-  console.log(propsFromState, propsFromDispatch, ownProps);
-  return {};
-}
+// const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
+//   console.log(propsFromState, propsFromDispatch, ownProps);
+//   return {};
+// }
+
+// With thunk
+const mapActionToProps = {
+  onUpdateUser: updateUser,
+  onApiRequest: apiRequest
+};
 
 export default connect(
-  mapStateToProps,
-  mapActionToProps,
-  mergeProps
+  mapStateToProps, mapActionToProps 
+  // , mergeProps
 )(App);
